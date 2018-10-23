@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.createConnection('mongodb://localhost/test', {
+  useMongoClient: true,
+});
 
 var db = mongoose.connection;
 
