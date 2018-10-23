@@ -4,6 +4,8 @@ import axios from 'axios';
 import Reviews from './components/Reviews.jsx';
 import Search from './components/Search.jsx';
 
+const MAGNIFYING_GLASS_URL = 'https://image.flaticon.com/icons/svg/181/181561.svg'
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -55,6 +57,12 @@ class App extends React.Component {
   }
 
   render () {
+    const magnifyingGlassStyle = {
+    position: 'absolute',
+    height: '10px', 
+    width: '10px',
+    }
+
     return (<div>
       <h1>Reviews Tab</h1>
       <Search/>
