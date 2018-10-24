@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Reviews from './components/Reviews.jsx';
 import Search from './components/Search.jsx';
-
-const MAGNIFYING_GLASS_URL = 'https://image.flaticon.com/icons/svg/181/181561.svg'
+import DropDown from './components/DropDown.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,8 +12,6 @@ class App extends React.Component {
       reviews: [],
       replies: null,
       makeReply: false,
-      sortBy: 'Newest',
-      term: '',
     }
   }
 
@@ -57,15 +54,10 @@ class App extends React.Component {
   }
 
   render () {
-    const magnifyingGlassStyle = {
-    position: 'absolute',
-    height: '10px', 
-    width: '10px',
-    }
 
     return (<div>
       <h1>Reviews Tab</h1>
-      <Search/>
+      <Search/> <DropDown/>
       <Reviews reviews={this.state.reviews}/>
     </div>)
   }
