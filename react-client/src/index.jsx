@@ -8,40 +8,33 @@ import DropDown from './components/DropDown.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
+      productId: 1, // built out solely for testing, need to get product id from productInfo once we connect our work.
       reviews: [],
       replies: null,
       makeReply: false,
     }
+    this.getReviews = this.getReviews.bind(this);
+    this.postReply = this.postReply.bind(this);
   }
 
-  // componentDidMount() {
-  //   $.ajax({
-  //     url: '/items', 
-  //     success: (data) => {
-  //       this.setState({
-  //         items: data
-  //       })
-  //     },
-  //     error: (err) => {
-  //       console.log('err', err);
-  //     }
-  //   });
-  // }
+  componentDidMount() {
+    this.getReviews()
+  }
 
   getReviews(){
-    axios.get('/reviews')
-    .then(reviews => {
-      console.log(reviews, ' reviews in getReviews')
+    axios.get('/buy/:productname/reviews', {params: this.state.productId})
+    .then(({data}) => {
+      console.log(data, ' reviews in getReviews');
       this.setState({
-        reviews : reviews
+        reviews : data
       })
     })
     .catch(err => {console.log(err, ' error in get Reviews')})
   }
 
   postReply(id, reply){
-    axios.post('replies', {
+    axios.post('/buy/:productname/replies', {
       id: id,
       reply: reply
     })
@@ -57,7 +50,10 @@ class App extends React.Component {
 
     return (<div>
       <h1>Reviews Tab</h1>
-      <Search/> <DropDown/>
+      <div style={{display: 'inline'}}>
+        <DropDown/>
+        <Search/> 
+      </div>
       <Reviews reviews={this.state.reviews}/>
     </div>)
   }

@@ -1,22 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const {selectAll, addReplytoReview} = require('../database-mongo');
+const {selectAll, addReplytoReview, db} = require('../database-mongo');
 const app = express();
 
 app.use(express.static(__dirname + '/../react-client/dist'));
 app.use(bodyParser.json());
 
-app.get('/reviews', function (req, res) {
-  selectAll()
+app.get('/buy/:productname/reviews', function (req, res) {
+  var id = req.query['0']
+  selectAll(id)
   .then(reviews => {
     res.status(200).send(reviews)
   })
   .catch(err => {
-    console.log(err, ' error in get reviews')
+    console.log(err, ' error in get reviews in server')
   })
 });
 
-app.post('/replies', function (req, res){
+app.post('/buy/:productname/replies', function (req, res){
   console.log(req.body);
   var id = req.body.id;
   var reply = req.body.reply
@@ -27,7 +28,8 @@ app.post('/replies', function (req, res){
 })
 
 
-app.listen(3002, function() {
-  console.log('listening on port 3002!');
+app.listen(3002, function(err) {
+  if (err) { db.close()}
+  else console.log('listening on port 3002!');
 });
 

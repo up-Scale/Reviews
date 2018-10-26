@@ -49,7 +49,7 @@ class DropDown extends React.Component {
         paddingRight: '5px',
     }
     const style2 = {
-        width: '200px',
+        width: '215px',
         height: '25px',
         borderRadius: '3px',
         textAlign: 'left',
@@ -62,7 +62,7 @@ class DropDown extends React.Component {
     }
 
     const dropDownSquare = {
-        width: '200px',
+        width: '215px',
         height: '100px',
         border: 'solid',
         borderColor: '#D3D3D3',
@@ -72,7 +72,7 @@ class DropDown extends React.Component {
         float: 'right',
         fontSize: '16px',
         backgroundColor: 'white',
-        boxShadow: '1px 2px #D3D3D3',
+        boxShadow: '1px 1px #D3D3D3',
     }
 
     const caretButton = {
@@ -83,8 +83,7 @@ class DropDown extends React.Component {
         float: 'right'
     }
     return (
-    <div>
-        <div className='container' style={{marginRight: '20px'}}>
+        <div className='container' style={{marginRight: '20px', paddingBottom: '10px'}}>
 
             <div style={style1}>
                 <ul>
@@ -107,8 +106,6 @@ class DropDown extends React.Component {
                 </ul>
             </div>
         </div>
-
-    </div>
     ) 
   }
 }
