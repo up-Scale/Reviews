@@ -26,6 +26,8 @@
     "mysql": "^2.13.0",
     "react": "^15.4.2",
     "react-bootstrap": "^0.32.4",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-stars": "^2.2.5",
+    "time-ago": "^0.2.1"
   }
 }
