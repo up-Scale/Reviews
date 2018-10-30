@@ -107,15 +107,15 @@ var selectAll = function(id) {
   })
 };
 
-var addReplyToReview = function (id, reply){
+var addReplyToReview = function (userId, reply){
   return Review.findOneAndUpdate({
-    productId: id,
+    _id: userId,
+    productId: 1,
   }, {
     $push: {
       replies: reply,
     }
   })
-  .save()
   .then(()=> {
     console.log('Reply added!')
   })

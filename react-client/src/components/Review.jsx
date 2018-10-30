@@ -12,15 +12,52 @@ class Review extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      likes: null
+      likes: null,
+      showReplies: false,
+      replies: [],
+      replyBody: '',
+      showDots: false,
     }
     this.convertTime = this.convertTime.bind(this);
     this.updatesLikes = this.updatesLikes.bind(this);
+    this.showReplyBox = this.showReplyBox.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.showDotsBox = this.showDotsBox.bind(this);
   }
 
   componentDidMount(){
     this.setState({
-      likes: this.props.review.likes
+      likes: this.props.review.likes,
+      replies: this.props.review.replies
+    })
+  }
+
+  showReplyBox(){
+    this.setState({
+      showReplies: !this.state.showReplies
+    })
+  }
+
+  showDotsBox(){
+    this.setState({
+      showDots: !this.state.showDots
+    })
+  }
+
+  handleFormSubmit(e){
+    e.preventDefault()
+    this.setState({
+      replies: this.state.replies.push(this.state.replyBody)
+    }, () => {
+    this.props.submitReply(this.props.review._id, this.state.replyBody)
+    })
+  }
+
+  handleInputChange(e){
+    e.preventDefault()
+    this.setState({
+      replyBody: e.target.value
     })
   }
 
@@ -81,7 +118,7 @@ class Review extends React.Component{
       border: 'solid',
       borderWidth: 'thin',
       borderColor: 'white',
-      borderRadius: '100px',
+      borderRadius: '100%',
       position: 'relative',
       float: 'left'
     }
@@ -113,7 +150,7 @@ class Review extends React.Component{
       float: 'left',
       marginLeft: '65px',
       marginRight: '10px',
-      paddingBottom: '15px',
+      // paddingBottom: '15px',
       color: '#5b6a69',
       paddingTop: '40px',
     }
@@ -139,6 +176,31 @@ class Review extends React.Component{
       background: 'none',
       border: 'none',
       padding: '0',
+      marginBottom: '10px',
+      marginRight: '20px',
+      fontSize: '14px',
+      color: '#5b6a69',
+      float: 'left',
+    }
+    const submitButtonStyle = {
+      textAlign: 'left',
+      background: '#14b6ad',
+      paddingTop: '6px',
+      paddingBottom: '6px',
+      paddingLeft: '17px',
+      paddingRight: '17px',
+      borderRadius: '3px',
+      marginBottom: '10px',
+      marginRight: '20px',
+      fontSize: '14px',
+      color: 'white',
+      float: 'left',
+    }
+    const cancelButtonStyle = {
+      textAlign: 'left',
+      background: 'none',
+      padding: '10px',
+      border: 'none',
       marginBottom: '10px',
       marginRight: '20px',
       fontSize: '14px',
@@ -180,6 +242,33 @@ class Review extends React.Component{
       right: '170px',
     }
     
+    const smallAvatarImageReplyTo = {
+      paddingTop: '10px',
+      paddingLeft: '10px',
+      height: '16px',
+      width: '16px',
+      border: 'solid',
+      borderWidth: 'thin',
+      borderColor: 'white',
+      borderRadius: '100%',
+      position: 'relative',
+    }
+
+    const smallDotsBoxStyle = {
+      border: 'solid',
+      borderColor: '#D3D3D3',
+      borderWidth: 'thin',
+      borderRadius: '3px',
+      fontSize: '12px',
+      color: '#D3D3D3',
+      backgroundColor: 'white',
+      paddingTop: '7px',
+      paddingLeft: '15px',
+      float: 'left',
+      position: 'relative',
+      bottom: '40px',
+    }
+
     return (
       <div style={reviewBox}>
         <div>
@@ -207,10 +296,38 @@ class Review extends React.Component{
           </div>
           <div style={reviewInfo}>
             <button onClick={this.updatesLikes} style={buttonStyles}><img style={imageStyle} src={likeButtonImage}></img>{this.state.likes}</button>
-            <button style={buttonStyles}><img style={imageStyle} src={replybuttonImage}></img>REPLY</button>
+            <button onClick={this.showReplyBox} style={buttonStyles}><img style={imageStyle} src={replybuttonImage}></img>REPLY</button>
             <button style={buttonStyles}><img style={imageStyle} src={shareButtonImage}></img>SHARE</button>
-            <button style={dotStyle}>...</button>
-          </div>
+            <button onClick={this.showDotsBox} style={dotStyle}>...</button>{
+              this.state.showDots ? (
+                <span style={smallDotsBoxStyle}>
+                  <button style={buttonStyles}>LINK</button>
+                  <br/>
+                  <button style={buttonStyles}>FLAG</button>
+                </span>
+              ) : (
+                null
+              )
+            }
+            </div>
+            {
+              this.state.showReplies ? (
+                <div style={reviewBox}>
+                  <div style={{marginLeft: '50px', float:'left', width:'90%'}}>
+                    You are replying to <img style={smallAvatarImageReplyTo} src={this.props.review.avatarUrl}></img>{this.props.review.username}.
+                    <br/>
+                    <form>
+                      <input style={{fontSize: '14px', fontStyle: 'italic', 'width': '100%', height: '60px'}} type="text" value={this.state.replyBody} onChange={this.handleInputChange} placeholder='Add a reply...'/>
+                    </form>
+                    <br/>
+                    <button onClick={this.handleFormSubmit} style={submitButtonStyle}>SUBMIT</button>
+                    <button onClick={this.showReplyBox} style={cancelButtonStyle}>CANCEL</button>
+                  </div>
+                </div>
+              ) : (
+                null
+              )
+            }
         </div>
       </div>
     )

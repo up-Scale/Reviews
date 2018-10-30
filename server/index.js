@@ -72,11 +72,10 @@ app.put('/buy/:productname/reviews', (req, res) => {
   })
 })
 
-app.post('/buy/:productname/replies', (req, res) => {
-  console.log(req.body);
-  var id = req.body.id;
-  var reply = req.body.reply
-  addReplytoReview(id, reply)
+app.post('/buy/:productname/reviews/replies', (req, res) => {
+  let userId = req.body.userId;
+  let reply = req.body.reply
+  addReplytoReview(userId, reply)
   .then(success => { res.status(201).send()})
   .catch(err => { console.log(err, ' error in post to replies')})
 
