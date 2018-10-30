@@ -108,8 +108,8 @@ var selectAll = function(id) {
 };
 
 var addReplyToReview = function (id, reply){
-  Review.findOneAndUpdate({
-    id: id,
+  return Review.findOneAndUpdate({
+    productId: id,
   }, {
     $push: {
       replies: reply,
@@ -122,8 +122,22 @@ var addReplyToReview = function (id, reply){
   .catch(err => { console.log(err, ' err in addReplytoReview')}) 
 };
 
+var updateLikes = function (id, newLikes, userId){
+  return Review.findOneAndUpdate({
+    _id: userId,
+    productId: id,
+  }, {
+    $set: {
+      likes: newLikes
+    }
+  })
+  .catch(err => console.log(err, ' err in updateLikes db'))
+}
+
 module.exports = {
   selectAll : selectAll,
   addReplytoReview: addReplyToReview,
+  updateLikes: updateLikes,
   db: db 
 }
+
