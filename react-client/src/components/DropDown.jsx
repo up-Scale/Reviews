@@ -34,8 +34,11 @@ class DropDown extends React.Component {
   selectOption(e){
       this.setState({
           select: e.target.value
+      }, () => {
+        this.props.sortBySelect(this.state.select)
       })
   }
+
 
   render() {
     const style1 = {
@@ -46,7 +49,7 @@ class DropDown extends React.Component {
         fontSize: '14px',
         textAlign: 'left',
         paddingLeft: '10px',
-        paddingRight: '5px',
+        marginRight: '115px',
     }
     const style2 = {
         width: '215px',
@@ -68,11 +71,13 @@ class DropDown extends React.Component {
         borderColor: '#D3D3D3',
         borderWidth: 'thin',
         borderRadius: '3px',
-        // fontStyle: 'italic',
         float: 'right',
         fontSize: '16px',
         backgroundColor: 'white',
         boxShadow: '1px 1px #D3D3D3',
+        position: 'relative',
+        top: '15px',
+        right: '115px',
     }
 
     const caretButton = {

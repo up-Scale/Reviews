@@ -5,11 +5,23 @@ import Stars from 'react-stars';
 const likeButtonImage = 'http://chittagongit.com//images/like-png-icon/like-png-icon-8.jpg'
 const replybuttonImage = 'https://www.shareicon.net/data/128x128/2015/09/02/94534_mail_384x512.png'
 const shareButtonImage = 'https://www1.lifestylecommunities.com/lc3/social_icons/share_icon.png'
+const addFriendImage = 'https://comps.canstockphoto.com.mx/agregar-blanco-usuario-plano-de-vectores-eps_csp49802637.jpg'
+
 
 class Review extends React.Component{
   constructor(props){
     super(props)
+    this.state = {
+      likes: null
+    }
     this.convertTime = this.convertTime.bind(this);
+    this.updatesLikes = this.updatesLikes.bind(this);
+  }
+
+  componentDidMount(){
+    this.setState({
+      likes: this.props.review.likes
+    })
   }
 
   convertTime(reviewDate){
@@ -18,21 +30,32 @@ class Review extends React.Component{
       replaced = replaced.split(' ').join('')
       return replaced;
     }
-    if (reviewDate.includes('days')){
+    else if (reviewDate.includes('days')){
       let replaced = reviewDate.replace('days ago', 'D')
       replaced = replaced.split(' ').join('')
       return replaced;
     }
-    if (reviewDate.includes('weeks')){
+    else if (reviewDate.includes('weeks')){
       let replaced = reviewDate.replace('weeks ago', 'W')
       replaced = replaced.split(' ').join('')
       return replaced;
     }
-    if (reviewDate.includes('months')){
+    else if (reviewDate.includes('months')){
       let replaced = reviewDate.replace('months ago', 'M')
       replaced = replaced.split(' ').join('')
       return replaced;
     }
+    else {
+      return 'error';
+    }
+  }
+
+  updatesLikes(){
+    this.setState({
+      likes: this.props.review.likes += 1
+    }, () => {
+      this.props.updateLike(this.state.likes, this.props.review._id)
+    })
   }
 
   render(){
@@ -60,6 +83,7 @@ class Review extends React.Component{
       borderColor: 'white',
       borderRadius: '100px',
       position: 'relative',
+      float: 'left'
     }
 
     const smallBox = {
@@ -72,17 +96,17 @@ class Review extends React.Component{
       fontSize: '12px',
       color: '#D3D3D3',
       backgroundColor: 'white',
-      marginLeft:'3px',
+      marginLeft:'10px',
       position: 'relative',
 
     }
   
     const userAndEndorsmentsPlacement = {
       fontSize: '14px', 
-      float: 'right',
+      float: 'left',
       postition: 'relative', 
       marginTop: '20px',
-      marginRight: '810px',
+      paddingLeft: '10px',
     }
 
     const reviewInfo = {
@@ -91,13 +115,16 @@ class Review extends React.Component{
       marginRight: '10px',
       paddingBottom: '15px',
       color: '#5b6a69',
+      paddingTop: '40px',
     }
 
     const timePlacement = {
-      marginLeft: '775px',
+      float: 'right',
+      marginRight: '10px',
       fontSize: '12px',
-      color: 'gray',
-      position: 'absolute',
+      color: '#5b6a69',
+      position: 'relative',
+      marginTop: '20px',
     }
 
     const imageStyle = {
@@ -132,6 +159,27 @@ class Review extends React.Component{
       bottom: '12px',
     }
 
+    const addFriendStyle = {
+      // paddingLeft: '5px',
+      height: 'auto',
+      width: '35px',
+      position: 'relative',
+      // bottom: '20px',
+      // display: 'inline',
+      // marginLeft: '155px',
+      top: '8px',
+      float: 'left',
+    }
+
+    const starsStyle = {
+      float: 'left',
+      // marginLeft: '50px',
+      // marginRight: '10px',
+      position: 'relative',
+      top: '50px',
+      right: '170px',
+    }
+    
     return (
       <div style={reviewBox}>
         <div>
@@ -140,15 +188,25 @@ class Review extends React.Component{
             <div className='username' style={userAndEndorsmentsPlacement}>
               <b>{this.props.review.username}</b>
               <span style={smallBox}>{this.props.review.userEndorsements}</span>
-              <span style={timePlacement}>{this.convertTime(Time.ago(this.props.review.reviewDate))}</span>
               </div>
+              <span style={timePlacement}>{this.convertTime(Time.ago(this.props.review.reviewDate))}</span>
+              <img style={addFriendStyle} src={addFriendImage}></img>
           </div>
-          <div style={{marginLeft: '60px', marginBottom: '5px'}} ><Stars count={5} value={this.props.review.stars} color1='#D3D3D3' color2='#14b6ad' border='1px' size={30} edit={false}/></div>
+          <div style={starsStyle} >
+          <Stars 
+          count={5} 
+          value={this.props.review.stars} 
+          color1='#D3D3D3' color2='#14b6ad' 
+          border='1px' 
+          size={30} 
+          edit={false}
+          />
+          </div>
           <div style={reviewInfo}>
             {this.props.review.review}
           </div>
           <div style={reviewInfo}>
-            <button style={buttonStyles}><img style={imageStyle} src={likeButtonImage}></img> {this.props.review.likes}</button>
+            <button onClick={this.updatesLikes} style={buttonStyles}><img style={imageStyle} src={likeButtonImage}></img>{this.state.likes}</button>
             <button style={buttonStyles}><img style={imageStyle} src={replybuttonImage}></img>REPLY</button>
             <button style={buttonStyles}><img style={imageStyle} src={shareButtonImage}></img>SHARE</button>
             <button style={dotStyle}>...</button>
