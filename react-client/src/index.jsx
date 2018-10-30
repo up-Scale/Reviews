@@ -35,9 +35,9 @@ class App extends React.Component {
     .catch(err => {console.log(err, ' error in get Reviews')})
   }
 
-  postReply(id, reply){
-    axios.post('/buy/:productname/replies', {
-      id: id,
+  postReply(userId, reply){
+    axios.post('/buy/:productname/reviews/replies', {
+      userId: userId,
       reply: reply
     })
     .then(replies => {
@@ -95,7 +95,7 @@ class App extends React.Component {
           <DropDown sortBySelect={this.sortBySelect}/>
           <Search onSearch={this.searchTerm}/> 
         </div>
-        <Reviews reviews={this.state.reviews} updateLike={this.updateLike}/>
+        <Reviews reviews={this.state.reviews} updateLike={this.updateLike} submitReply={this.postReply}/>
       </div>
     )
   }

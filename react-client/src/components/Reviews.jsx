@@ -17,7 +17,7 @@ const Reviews = (props) => {
       <h4> Reviews </h4>
       There are { props.reviews.length } reviews.
       <div>
-      { props.reviews.map(review => <Review key={review._id} review={review} updateLike={props.updateLike}/>)}
+      { props.reviews.map(review => <Review key={review._id} review={review} updateLike={props.updateLike} submitReply={props.submitReply}/>)}
       </div>
     </div>
   )
