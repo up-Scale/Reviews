@@ -111,16 +111,16 @@ class Review extends React.Component{
     }
 
     const avatarImage = {
-      paddingTop: '20px',
-      paddingLeft: '20px',
-      height: '32px',
-      width: '32px',
+      height: '35px',
+      width: '35px',
+      borderRadius: '50%',
       border: 'solid',
       borderWidth: 'thin',
       borderColor: 'white',
-      borderRadius: '100%',
       position: 'relative',
-      float: 'left'
+      float: 'left',
+      marginTop: '20px',
+      marginLeft: '20px',
     }
 
     const smallBox = {
@@ -243,14 +243,14 @@ class Review extends React.Component{
     }
     
     const smallAvatarImageReplyTo = {
-      paddingTop: '10px',
-      paddingLeft: '10px',
+      marginTop: '10px',
+      marginLeft: '10px',
       height: '16px',
       width: '16px',
       border: 'solid',
       borderWidth: 'thin',
       borderColor: 'white',
-      borderRadius: '100%',
+      borderRadius: '50%',
       position: 'relative',
     }
 
@@ -314,7 +314,7 @@ class Review extends React.Component{
               this.state.showReplies ? (
                 <div style={reviewBox}>
                   <div style={{marginLeft: '50px', float:'left', width:'90%'}}>
-                    You are replying to <img style={smallAvatarImageReplyTo} src={this.props.review.avatarUrl}></img>{this.props.review.username}.
+                    You are replying to <img style={smallAvatarImageReplyTo} src={this.props.review.avatarUrl}></img><b>{this.props.review.username}</b>.
                     <br/>
                     <form>
                       <input style={{fontSize: '14px', fontStyle: 'italic', 'width': '100%', height: '60px'}} type="text" value={this.state.replyBody} onChange={this.handleInputChange} placeholder='Add a reply...'/>
