@@ -5,11 +5,11 @@ import Reviews from './components/Reviews.jsx';
 import Search from './components/Search.jsx';
 import DropDown from './components/DropDown.jsx';
 
-class App extends React.Component {
+class ReviewsTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productId: 1, // built out solely for testing, need to get product id from productInfo once we connect our work.
+      productName: 'flashlight', // built out solely for testing, need to get product id from productInfo once we connect our work.
       reviews: [],
       makeReply: false,
     }
@@ -25,9 +25,8 @@ class App extends React.Component {
   }
 
   getReviews(){
-    axios.get('/buy/:productname/reviews', {params: this.state.productId})
+    axios.get(`http://localhost:3002/buy/${this.state.productName}/reviews`, {params: this.state.productName})
     .then(({data}) => {
-      console.log(data)
       this.setState({
         reviews : data
       })
@@ -36,9 +35,10 @@ class App extends React.Component {
   }
 
   postReply(userId, reply){
-    axios.post('/buy/:productname/reviews/replies', {
+    axios.post(`http://localhost:3002/buy/${this.state.productName}/reviews/replies`, {
       userId: userId,
-      reply: reply
+      reply: reply,
+      name : this.state.productName
     })
     .then(replies => {
       console.log(replies, ' replies in postReply')
@@ -46,9 +46,9 @@ class App extends React.Component {
   }
 
   searchTerm(term){
-    axios.post('/buy/:productname/reviews/search', {
+    axios.post(`http://localhost:3002/buy/${this.state.productName}/reviews/search`, {
       term: term,
-      id: this.state.productId
+      name: this.state.productName
     })
     .then(({data}) => {
       // console.log(data, ' results in searchTerm')
@@ -62,8 +62,8 @@ class App extends React.Component {
   }
 
   sortBySelect(option){
-    axios.post('/buy/:productname/reviews/sort', {
-      id: this.state.productId,
+    axios.post(`http://localhost:3002/buy/${this.state.productName}/reviews/sort`, {
+      name: this.state.productName,
       option: option,
     })
     .then(({data}) => {
@@ -77,9 +77,9 @@ class App extends React.Component {
   }
 
   updateLike(likes, userId){
-    axios.put('/buy/:productname/reviews', {
+    axios.put(`http://localhost:3002/buy/${this.state.productName}/reviews`, {
       likes: likes,
-      id: this.state.productId,
+      name: this.state.productName,
       userId: userId,
     })
     .then(success => {console.log('success!')})
@@ -90,7 +90,6 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        <h1>Reviews Tab</h1>
         <div style={{display: 'inline'}}>
           <DropDown sortBySelect={this.sortBySelect}/>
           <Search onSearch={this.searchTerm}/> 
@@ -101,4 +100,6 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+export default ReviewsTab;
+// ReactDOM.render(<App />, document.getElementById('app'));
+window.Reviews = ReviewsTab;
