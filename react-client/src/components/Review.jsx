@@ -49,9 +49,9 @@ class Review extends React.Component{
     e.preventDefault()
     this.setState({
       replies: this.state.replies.push(this.state.replyBody)
-    }, () => {
+    },
     this.props.submitReply(this.props.review._id, this.state.replyBody)
-    })
+    )
   }
 
   handleInputChange(e){
@@ -62,37 +62,37 @@ class Review extends React.Component{
   }
 
   convertTime(reviewDate){
-    if (reviewDate.includes('hours')){
-      let replaced = reviewDate.replace('hours ago', 'H')
+    if (reviewDate.includes('hour' ||'hours')){
+      let replaced = reviewDate.replace('hour ago'||'hours ago', 'H')
       replaced = replaced.split(' ').join('')
       return replaced;
     }
-    else if (reviewDate.includes('days')){
-      let replaced = reviewDate.replace('days ago', 'D')
+    else if (reviewDate.includes('day'||'days')){
+      let replaced = reviewDate.replace('day ago'||'days ago', 'D')
       replaced = replaced.split(' ').join('')
       return replaced;
     }
-    else if (reviewDate.includes('weeks')){
-      let replaced = reviewDate.replace('weeks ago', 'W')
+    else if (reviewDate.includes('week'||'weeks')){
+      let replaced = reviewDate.replace('week ago'||'weeks ago', 'W')
       replaced = replaced.split(' ').join('')
       return replaced;
     }
-    else if (reviewDate.includes('months')){
-      let replaced = reviewDate.replace('months ago', 'M')
+    else if (reviewDate.includes('month'||'months')){
+      let replaced = reviewDate.replace('month ago'||'months ago', 'M')
       replaced = replaced.split(' ').join('')
       return replaced;
     }
     else {
-      return 'error';
+      return reviewDate;
     }
   }
 
   updatesLikes(){
     this.setState({
       likes: this.props.review.likes += 1
-    }, () => {
+    },
       this.props.updateLike(this.state.likes, this.props.review._id)
-    })
+    )
   }
 
   render(){

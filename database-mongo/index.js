@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/reviews')
+const {password} = require('./config.js')
+mongoose.connect(`mongodb://kennisilverio:${password}@ddreviewcluster-shard-00-00-quejm.mongodb.net:27017,ddreviewcluster-shard-00-01-quejm.mongodb.net:27017,ddreviewcluster-shard-00-02-quejm.mongodb.net:27017/Reviews?ssl=true&replicaSet=DDReviewCluster-shard-0&authSource=admin&retryWrites=true`||'mongodb://localhost/reviews')
 mongoose.Promise = global.Promise;
 
 var db = mongoose.connection;
@@ -11,7 +12,7 @@ db.once('open', function() {
 });
 
 var reviewSchema = mongoose.Schema({
-  productId: Number,
+  productName: String,
   avatarUrl: String,
   username: String,
   userEndorsements: Number,
@@ -28,7 +29,7 @@ var Review = mongoose.model('Review', reviewSchema);
 var Luffy1 = Review.find({username: 'StrawHatCaptain1'}, (err, docs) =>{
   if (docs.length === 0 || err){
     new Review({
-      productId: 1,
+      productName: 'flashlight',
       avatarUrl: 'https://myanimelist.cdn-dena.com/images/characters/9/310307.jpg',
       username: 'StrawHatCaptain1',
       userEndorsements: 54,
@@ -51,7 +52,7 @@ var Luffy1 = Review.find({username: 'StrawHatCaptain1'}, (err, docs) =>{
 var Luffy2 = Review.find({username: 'StrawHatCaptain2'}, (err, docs) =>{
   if (docs.length === 0 || err){
     new Review({
-      productId: 2,
+      productName: 'keyboard',
       avatarUrl: 'https://myanimelist.cdn-dena.com/images/characters/9/310307.jpg',
       username: 'StrawHatCaptain2',
       userEndorsements: 55,
@@ -74,7 +75,7 @@ var Luffy2 = Review.find({username: 'StrawHatCaptain2'}, (err, docs) =>{
 var Luffy3 = Review.find({username: 'StrawHatCaptain3'}, (err, docs) =>{
   if (docs.length === 0 || err){
     new Review({
-      productId: 3,
+      productName: 'headphones',
       avatarUrl: 'https://myanimelist.cdn-dena.com/images/characters/9/310307.jpg',
       username: 'StrawHatCaptain3',
       userEndorsements: 56,
@@ -97,7 +98,7 @@ var Luffy3 = Review.find({username: 'StrawHatCaptain3'}, (err, docs) =>{
 var Luffy4 = Review.find({username: 'StrawHatCaptain4'}, (err, docs) =>{
   if (docs.length === 0 || err){
     new Review({
-      productId: 4,
+      productName: 'seki-kit',
       avatarUrl: 'https://myanimelist.cdn-dena.com/images/characters/9/310307.jpg',
       username: 'StrawHatCaptain4',
       userEndorsements: 57,
@@ -120,7 +121,7 @@ var Luffy4 = Review.find({username: 'StrawHatCaptain4'}, (err, docs) =>{
 var Luffy5 = Review.find({username: 'StrawHatCaptain5'}, (err, docs) =>{
   if (docs.length === 0 || err){
     new Review({
-      productId: 5,
+      productName: 'watch',
       avatarUrl: 'https://myanimelist.cdn-dena.com/images/characters/9/310307.jpg',
       username: 'StrawHatCaptain5',
       userEndorsements: 58,
@@ -145,14 +146,14 @@ var Luffy5 = Review.find({username: 'StrawHatCaptain5'}, (err, docs) =>{
 var Naruto1 = Review.find({username: 'HiddenLeafHokage7'}, (err, docs) =>{
   if (docs.length === 0 || err){
     new Review({
-      productId: 1,
+      productName: 'flashlight',
       avatarUrl: 'https://occ-0-990-987.1.nflxso.net/art/29105/05d2c6d0d5d613e28e8dd02baec10a7298729105.jpg',
       username: 'HiddenLeafHokage7',
       userEndorsements: 9,
       verfiedUser: true,
       reviewDate: new Date(),
       stars: 3.5,
-      review: 'Not Very Useful for my village, and for Kurama the nine-tail fox, he was pretty upset about it, more than he originally is. Sasuke saw it and disappeared again and Sakura almost hit me for getting this. All in all not the best purchase I made, but I\'m satisfied.',
+      review: 'Semi Useful for my village, and for Kurama the nine-tail fox, he was pretty upset about it, more than he originally is. Sasuke saw it and disappeared again and Sakura almost hit me for getting this. All in all not the best purchase I made, but I\'m satisfied.',
       likes: 99,
       replies: [],
     })
@@ -168,7 +169,7 @@ var Naruto1 = Review.find({username: 'HiddenLeafHokage7'}, (err, docs) =>{
 var Naruto2 = Review.find({username: 'HiddenLeafHokage8'}, (err, docs) =>{
   if (docs.length === 0 || err){
     new Review({
-      productId: 2,
+      productName: 'keyboard',
       avatarUrl: 'https://occ-0-990-987.1.nflxso.net/art/29105/05d2c6d0d5d613e28e8dd02baec10a7298729105.jpg',
       username: 'HiddenLeafHokage8',
       userEndorsements: 10,
@@ -191,14 +192,14 @@ var Naruto2 = Review.find({username: 'HiddenLeafHokage8'}, (err, docs) =>{
 var Naruto3 = Review.find({username: 'HiddenLeafHokage9'}, (err, docs) =>{
   if (docs.length === 0 || err){
     new Review({
-      productId: 3,
+      productName: 'headphones',
       avatarUrl: 'https://occ-0-990-987.1.nflxso.net/art/29105/05d2c6d0d5d613e28e8dd02baec10a7298729105.jpg',
       username: 'HiddenLeafHokage9',
       userEndorsements: 11,
       verfiedUser: true,
       reviewDate: new Date(),
       stars: 4.5,
-      review: 'Not Very Useful for my village, and for Kurama the nine-tail fox, he was pretty upset about it, more than he originally is. Sasuke saw it and disappeared again and Sakura almost hit me for getting this. All in all not the best purchase I made, but I\'m satisfied.',
+      review: 'Very Useful for my village, and for Kurama the nine-tail fox, he was pretty upset about it, more than he originally is. Sasuke saw it and disappeared again and Sakura almost hit me for getting this. All in all not the best purchase I made, but I\'m satisfied.',
       likes: 101,
       replies: [],
     })
@@ -215,7 +216,7 @@ var Naruto3 = Review.find({username: 'HiddenLeafHokage9'}, (err, docs) =>{
 var Midoriya = Review.find({username: 'MyHeroMidoriya'}, (err, docs) =>{
   if (docs.length === 0 || err){
       new Review({
-      productId: 1,
+      productName: 'flashlight',
       avatarUrl: 'http://st.cdjapan.co.jp/pictures/l/06/48/THCA-60099.jpg',
       username: 'MyHeroMidoriya',
       userEndorsements: 20,
@@ -235,8 +236,8 @@ var Midoriya = Review.find({username: 'MyHeroMidoriya'}, (err, docs) =>{
   }
 })
 
-var selectAll = function(id) {
-  return Review.find({productId: id}) 
+var selectAll = function(name) {
+  return Review.find({productName: name}) 
   .then(reviews => {
     return reviews
   })
@@ -245,10 +246,10 @@ var selectAll = function(id) {
   })
 };
 
-var addReplyToReview = function (userId, reply){
+var addReplyToReview = function (name, userId, reply){
   return Review.findOneAndUpdate({
     _id: userId,
-    productId: 1,
+    productName: name,
   }, {
     $push: {
       replies: reply,
@@ -260,10 +261,10 @@ var addReplyToReview = function (userId, reply){
   .catch(err => { console.log(err, ' err in addReplytoReview')}) 
 };
 
-var updateLikes = function (id, newLikes, userId){
+var updateLikes = function (name, newLikes, userId){
   return Review.findOneAndUpdate({
     _id: userId,
-    productId: id,
+    productName: name,
   }, {
     $set: {
       likes: newLikes

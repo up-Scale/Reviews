@@ -18,25 +18,25 @@ class DropDown extends React.Component {
     e.preventDefault();
     this.setState({
         showDropDown: !(this.state.showDropDown)
-    }, () => {
-        document.addEventListener('click', this.closeMenu);
-    })
+    },
+        document.addEventListener('click', this.closeMenu)
+    )
   }
 
   closeMenu() {
     this.setState({ 
         showDropDown: false 
-    }, () => {
-      document.removeEventListener('click', this.closeMenu);
-    });
+    },
+      document.removeEventListener('click', this.closeMenu)
+    );
   }
 
   selectOption(e){
       this.setState({
           select: e.target.value
-      }, () => {
+      },
         this.props.sortBySelect(this.state.select)
-      })
+      )
   }
 
 
