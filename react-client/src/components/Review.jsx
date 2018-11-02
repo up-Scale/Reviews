@@ -20,7 +20,6 @@ class Review extends React.Component{
       replyBody: '',
       showDots: false,
     }
-    this.convertTime = this.convertTime.bind(this);
     this.updatesLikes = this.updatesLikes.bind(this);
     this.showReplyBox = this.showReplyBox.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
