@@ -4,14 +4,19 @@ const db = require('../database-mongo');
 const app = express();
 const _ = require('underscore');
 const cors = require('cors')
+const path = require('path')
 
 
 app.use(express.static(__dirname + '/../react-client/dist'));
 app.use(bodyParser.json());
 app.use(cors())
 
-app.get('/buy/:productname/reviews', (req, res) => {
-  var name = req.params.productname
+app.get('/buy/:productName', (err, res) => {
+  res.sendFile(path.resolve('react-client/dist/index.html'))
+})
+
+app.get('/api/:productName/reviews', (req, res) => {
+  var name = req.params.productName
   db.selectAll(name)
   .then(reviews => {
     res.status(200).send(reviews)
@@ -21,7 +26,7 @@ app.get('/buy/:productname/reviews', (req, res) => {
   })
 });
 
-app.post('/buy/:productname/reviews/search', (req, res) => {
+app.post('/api/:productName/reviews/search', (req, res) => {
   var name = req.body.name
   var term = req.body.term.toLowerCase()
 
@@ -40,7 +45,7 @@ app.post('/buy/:productname/reviews/search', (req, res) => {
   })
 });
 
-app.post('/buy/:productname/reviews/sort', (req, res) => {
+app.post('/api/:productname/reviews/sort', (req, res) => {
 
   db.selectAll(req.body.name)
   .then(reviews => {
@@ -61,7 +66,7 @@ app.post('/buy/:productname/reviews/sort', (req, res) => {
   .catch(err => { console.log(err, ' error in post to sort')})
 })
 
-app.put('/buy/:productname/reviews', (req, res) => {
+app.put('/api/:productname/reviews', (req, res) => {
   var newLikes = req.body.likes
   var name = req.body.name
   var userId = req.body.userId
@@ -74,7 +79,7 @@ app.put('/buy/:productname/reviews', (req, res) => {
   })
 })
 
-app.post('/buy/:productname/reviews/replies', (req, res) => {
+app.post('/api/:productname/reviews/replies', (req, res) => {
   var userId = req.body.userId;
   var reply = req.body.reply;
   var name = req.body.name;

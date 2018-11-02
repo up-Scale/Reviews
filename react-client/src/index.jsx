@@ -13,7 +13,6 @@ class ReviewsTab extends React.Component {
       reviews: [],
       makeReply: false,
     }
-    this.getReviews = this.getReviews.bind(this);
     this.postReply = this.postReply.bind(this);
     this.searchTerm = this.searchTerm.bind(this);
     this.sortBySelect = this.sortBySelect.bind(this);
@@ -21,21 +20,24 @@ class ReviewsTab extends React.Component {
   }
 
   componentDidMount() {
-    this.getReviews()
-  }
-
-  getReviews(){
-    axios.get(`http://localhost:3002/buy/${this.state.productName}/reviews`, {params: this.state.productName})
+    let url = new URL(window.location.href)
+    let productName = 'flashlight'
+    if(url.pathname !== '/'){
+      productName = url.pathname.split('/')[2]
+    }
+    axios.get(`http://localhost:3002/api/${productName}/reviews`)
     .then(({data}) => {
       this.setState({
-        reviews : data
+        reviews : data,
+        productName : productName
       })
     })
     .catch(err => {console.log(err, ' error in get Reviews')})
   }
 
+
   postReply(userId, reply){
-    axios.post(`http://localhost:3002/buy/${this.state.productName}/reviews/replies`, {
+    axios.post(`http://localhost:3002/api/${this.state.productName}/reviews/replies`, {
       userId: userId,
       reply: reply,
       name : this.state.productName
@@ -46,7 +48,7 @@ class ReviewsTab extends React.Component {
   }
 
   searchTerm(term){
-    axios.post(`http://localhost:3002/buy/${this.state.productName}/reviews/search`, {
+    axios.post(`http://localhost:3002/api/${this.state.productName}/reviews/search`, {
       term: term,
       name: this.state.productName
     })
@@ -62,7 +64,7 @@ class ReviewsTab extends React.Component {
   }
 
   sortBySelect(option){
-    axios.post(`http://localhost:3002/buy/${this.state.productName}/reviews/sort`, {
+    axios.post(`http://localhost:3002/api/${this.state.productName}/reviews/sort`, {
       name: this.state.productName,
       option: option,
     })
@@ -77,7 +79,7 @@ class ReviewsTab extends React.Component {
   }
 
   updateLike(likes, userId){
-    axios.put(`http://localhost:3002/buy/${this.state.productName}/reviews`, {
+    axios.put(`http://localhost:3002/api/${this.state.productName}/reviews`, {
       likes: likes,
       name: this.state.productName,
       userId: userId,
@@ -101,5 +103,5 @@ class ReviewsTab extends React.Component {
 }
 
 export default ReviewsTab;
-// ReactDOM.render(<App />, document.getElementById('app'));
-window.Reviews = ReviewsTab;
+ReactDOM.render(<ReviewsTab />, document.getElementById('reviews'));
+// window.Reviews = ReviewsTab;
