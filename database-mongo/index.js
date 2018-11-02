@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
-const {password} = require('./config.js')
-mongoose.connect(`mongodb://kennisilverio:${password}@ddreviewcluster-shard-00-00-quejm.mongodb.net:27017,ddreviewcluster-shard-00-01-quejm.mongodb.net:27017,ddreviewcluster-shard-00-02-quejm.mongodb.net:27017/Reviews?ssl=true&replicaSet=DDReviewCluster-shard-0&authSource=admin&retryWrites=true`||'mongodb://localhost/reviews')
+mongoose.connect(`mongodb://kenni:number1user@ds149593.mlab.com:49593/reviews`||'mongodb://localhost/reviews')
 mongoose.Promise = global.Promise;
 
 var db = mongoose.connection;
