@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(cors())
 
 app.get('/buy/:productname/reviews', (req, res) => {
-  let name = req.params.productname
+  var name = req.params.productname
   db.selectAll(name)
   .then(reviews => {
     res.status(200).send(reviews)
@@ -22,8 +22,8 @@ app.get('/buy/:productname/reviews', (req, res) => {
 });
 
 app.post('/buy/:productname/reviews/search', (req, res) => {
-  let name = req.body.name
-  let term = req.body.term.toLowerCase()
+  var name = req.body.name
+  var term = req.body.term.toLowerCase()
 
   db.selectAll(name)
   .then(reviews => {
@@ -62,9 +62,9 @@ app.post('/buy/:productname/reviews/sort', (req, res) => {
 })
 
 app.put('/buy/:productname/reviews', (req, res) => {
-  let newLikes = req.body.likes
-  let name = req.body.name
-  let userId = req.body.userId
+  var newLikes = req.body.likes
+  var name = req.body.name
+  var userId = req.body.userId
   db.updateLikes(name, newLikes, userId)
   .then(reviews => {
     res.status(200).send(reviews)
@@ -75,9 +75,9 @@ app.put('/buy/:productname/reviews', (req, res) => {
 })
 
 app.post('/buy/:productname/reviews/replies', (req, res) => {
-  let userId = req.body.userId;
-  let reply = req.body.reply;
-  let name = req.body.name;
+  var userId = req.body.userId;
+  var reply = req.body.reply;
+  var name = req.body.name;
   db.addReplytoReview(name, userId, reply)
   .then(success => { res.status(201).send()})
   .catch(err => { console.log(err, ' error in post to replies')})
