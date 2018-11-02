@@ -64,7 +64,7 @@ class ReviewsTab extends React.Component {
   }
 
   sortBySelect(option){
-    axios.post(`http://localhost:3002/api/${this.state.productName}/reviews/sort`, {
+    axios.post(`/api/${this.state.productName}/reviews/sort`, {
       name: this.state.productName,
       option: option,
     })
@@ -103,5 +103,5 @@ class ReviewsTab extends React.Component {
 }
 
 export default ReviewsTab;
-ReactDOM.render(<ReviewsTab />, document.getElementById('reviews'));
-// window.Reviews = ReviewsTab;
+// ReactDOM.render(<ReviewsTab />, document.getElementById('reviews'));
+window.Reviews = ReviewsTab;
