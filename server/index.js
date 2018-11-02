@@ -87,7 +87,7 @@ app.post('/buy/:productname/reviews/replies', (req, res) => {
 
 
 app.listen(3002, function(err) {
-  if (err) { db.close()}
+  if (err) {console.log(err, 'error in listen')}
   else console.log('listening on port 3002!');
 });
 
