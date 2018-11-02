@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const {selectAll, addReplytoReview, updateLikes, db} = require('../database-mongo');
+const db = require('../database-mongo');
 const app = express();
 const _ = require('underscore');
 const cors = require('cors')
@@ -12,7 +12,7 @@ app.use(cors())
 
 app.get('/buy/:productname/reviews', (req, res) => {
   let name = req.params.productname
-  selectAll(name)
+  db.selectAll(name)
   .then(reviews => {
     res.status(200).send(reviews)
   })
@@ -25,7 +25,7 @@ app.post('/buy/:productname/reviews/search', (req, res) => {
   let name = req.body.name
   let term = req.body.term.toLowerCase()
 
-  selectAll(name)
+  db.selectAll(name)
   .then(reviews => {
     results = [];
     reviews.forEach(review => {
@@ -42,7 +42,7 @@ app.post('/buy/:productname/reviews/search', (req, res) => {
 
 app.post('/buy/:productname/reviews/sort', (req, res) => {
 
-  selectAll(req.body.name)
+  db.selectAll(req.body.name)
   .then(reviews => {
     if(req.body.option === 'NEWEST'){
       res.status(200).send(_.sortBy(reviews, 'reviewDate').reverse())
@@ -65,7 +65,7 @@ app.put('/buy/:productname/reviews', (req, res) => {
   let newLikes = req.body.likes
   let name = req.body.name
   let userId = req.body.userId
-  updateLikes(name, newLikes, userId)
+  db.updateLikes(name, newLikes, userId)
   .then(reviews => {
     res.status(200).send(reviews)
   })
@@ -78,7 +78,7 @@ app.post('/buy/:productname/reviews/replies', (req, res) => {
   let userId = req.body.userId;
   let reply = req.body.reply;
   let name = req.body.name;
-  addReplytoReview(name, userId, reply)
+  db.addReplytoReview(name, userId, reply)
   .then(success => { res.status(201).send()})
   .catch(err => { console.log(err, ' error in post to replies')})
 
