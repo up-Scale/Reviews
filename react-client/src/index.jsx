@@ -25,7 +25,7 @@ class ReviewsTab extends React.Component {
     if(url.pathname !== '/'){
       productName = url.pathname.split('/')[2]
     }
-    axios.get(`http://localhost:3002/api/${productName}/reviews`)
+    axios.get(`/api/${productName}/reviews`)
     .then(({data}) => {
       this.setState({
         reviews : data,
@@ -37,7 +37,7 @@ class ReviewsTab extends React.Component {
 
 
   postReply(userId, reply){
-    axios.post(`http://localhost:3002/api/${this.state.productName}/reviews/replies`, {
+    axios.post(`/api/${this.state.productName}/reviews/replies`, {
       userId: userId,
       reply: reply,
       name : this.state.productName
@@ -48,7 +48,7 @@ class ReviewsTab extends React.Component {
   }
 
   searchTerm(term){
-    axios.post(`http://localhost:3002/api/${this.state.productName}/reviews/search`, {
+    axios.post(`/api/${this.state.productName}/reviews/search`, {
       term: term,
       name: this.state.productName
     })
@@ -64,7 +64,7 @@ class ReviewsTab extends React.Component {
   }
 
   sortBySelect(option){
-    axios.post(`http://localhost:3002/api/${this.state.productName}/reviews/sort`, {
+    axios.post(`/api/${this.state.productName}/reviews/sort`, {
       name: this.state.productName,
       option: option,
     })
@@ -79,7 +79,7 @@ class ReviewsTab extends React.Component {
   }
 
   updateLike(likes, userId){
-    axios.put(`http://localhost:3002/api/${this.state.productName}/reviews`, {
+    axios.put(`/api/${this.state.productName}/reviews`, {
       likes: likes,
       name: this.state.productName,
       userId: userId,
