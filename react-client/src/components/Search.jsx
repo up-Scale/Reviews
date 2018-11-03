@@ -30,7 +30,7 @@ class Search extends React.Component {
   render() {
     const style ={
         width: '250px',
-        height: '25px',
+        height: 'auto',
         paddingLeft: '50px',
         borderRadius: '3px',
         fontStyle: 'italic',
