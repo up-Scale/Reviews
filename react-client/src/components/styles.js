@@ -1,6 +1,6 @@
 const styles = {
     reviewBox : {
-        width: 'auto',
+        width: '100%',
         height: 'auto',
         margin: 'auto',
         border: 'solid',
