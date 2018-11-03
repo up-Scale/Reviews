@@ -35,8 +35,9 @@ class DropDown extends React.Component {
       this.setState({
           select: e.target.value
       },
-        this.props.sortBySelect(this.state.select)
-      )
+        ()=> {
+            this.props.sortBySelect(this.state.select)
+        })
   }
 
 
