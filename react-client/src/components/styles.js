@@ -2,6 +2,7 @@ const styles = {
     reviewBox : {
         width: 'auto',
         height: 'auto',
+        margin: 'auto',
         border: 'solid',
         borderColor: '#D3D3D3',
         borderWidth: 'thin',
