@@ -92,7 +92,7 @@ class ReviewsTab extends React.Component {
   render () {
     return (
       <div>
-        <div style={{display: 'inline'}}>
+        <div>
           <DropDown sortBySelect={this.sortBySelect}/>
           <Search onSearch={this.searchTerm}/> 
         </div>
