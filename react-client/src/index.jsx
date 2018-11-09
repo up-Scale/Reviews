@@ -20,12 +20,13 @@ class ReviewsTab extends React.Component {
   }
 
   componentDidMount() {
+    var ProductName = window.location.href.slice(26)
     let url = new URL(window.location.href)
     let productName = 'flashlight'
     if(url.pathname !== '/'){
       productName = url.pathname.split('/')[2]
     }
-    axios.get(`/api/${productName}/reviews`)
+    axios.get(`/api/${ProductName}/reviews`)
     .then(({data}) => {
       this.setState({
         reviews : data,

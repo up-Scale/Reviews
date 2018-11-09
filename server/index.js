@@ -15,6 +15,8 @@ app.get('/buy/:productName', (err, res) => {
   res.sendFile(path.resolve('react-client/dist/index.html'))
 })
 
+
+//Fetch all the reviews for a productName
 app.get('/api/:productName/reviews', (req, res) => {
   var name = req.params.productName
   db.selectAll(name)
@@ -26,6 +28,8 @@ app.get('/api/:productName/reviews', (req, res) => {
   })
 });
 
+
+//Search specific terms in all the reviews for a productName
 app.post('/api/:productName/reviews/search', (req, res) => {
   var name = req.body.name
   var term = req.body.term.toLowerCase()
