@@ -3,37 +3,73 @@ var db = require('./index.js');
 
 var counter = 1;
 var counterReivew = 1;
+var counterUsers = 1;
 
-// function getRandomProducts() {
-//   return new Promise(function(resolve, reject) {
-//     setTimeout(function() {
-//     	var nameArr= [];
-// 			for(var i = 0; i < 50000; i++){
-// 				var randomProduct = faker.commerce.product() + counter;
-// 				var miniArr = [randomProduct]
-// 				nameArr.push(miniArr)
-// 			 	counter++;
-// 			}
+function getRandomProducts() {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+    	var nameArr= [];
+			for(var i = 0; i < 50000; i++){
+				var randomProduct = faker.commerce.product() + counter;
+				var miniArr = [randomProduct]
+				nameArr.push(miniArr)
+			 	counter++;
+			}
 
-// 			db.interstProductName(nameArr, function(err, result){
-// 				if(err){
-// 					console.log(err)
-// 				}else {
-// 					console.log(counter)
-//         	resolve();
-//       	}
-// 			})
-//     }, 1000);
-//   }); 
-// }
+			db.interstProductName(nameArr, function(err, result){
+				if(err){
+					console.log(err)
+				}else {
+					console.log(counter)
+        	resolve();
+      	}
+			})
+    }, 1000);
+  }); 
+}
 
-// async function populateProducts() {
-//   for (let x = 0; x < 200; x++) {
-//     console.log(await getRandomProducts());
-//   }
-// }
+async function populateProducts() {
+  for (let x = 0; x < 200; x++) {
+    console.log(await getRandomProducts());
+  }
+}
 
-// populateProducts();
+populateProducts();
+
+
+function getRandomUsers() {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+    	var usersArr = [];
+			for(var i = 0; i < 10000; i++){
+				var randUserName = faker.internet.userName() + counterUsers;
+				var randAvatarURL = faker.internet.avatar();
+				var randVerifiedUser = faker.random.boolean();
+				var randUserEndorsements = faker.random.number();
+				usersArr.push([randUserName, randAvatarURL, randVerifiedUser, randUserEndorsements])
+			 	counterUsers++;
+			}
+			db.interstUsers(usersArr, function(err, result){
+				if(err){
+					console.log(err)
+				}else {
+					console.log(counterReivew)
+        	resolve();
+      	}
+			})
+    }, 1000);
+  }); 
+}
+
+
+async function populateUsers() {
+  for (let x = 0; x < 1000; x++) {
+    console.log(await getRandomUsers());
+  }
+}
+
+populateUsers();
+
 
 function getRandomReviews() {
   return new Promise(function(resolve, reject) {

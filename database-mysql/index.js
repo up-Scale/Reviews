@@ -31,6 +31,19 @@ var interstReview = function(reviewArr, callback) {
   });
 };
 
+
+var interstUsers = function(userArr, callback) {
+  var sql =  'INSERT INTO users (userName, avatarURL, verifiedUser, userEndorsements) VALUES ?'
+  connection.query(sql, [userArr], function(err, results) {
+    if(err) {
+    	callback(err, null);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
 module.exports.connection = connection;
 module.exports.interstProductName = interstProductName;
 module.exports.interstReview = interstReview;
+module.exports.interstUsers = interstUsers;
