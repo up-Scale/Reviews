@@ -1,10 +1,13 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('../database-mongo');
+const db = require('../database-mysql/index.js');
 const app = express();
 const _ = require('underscore');
 const cors = require('cors')
 const path = require('path')
+
+
 
 
 app.use(express.static(__dirname + '/../react-client/dist'));
@@ -15,17 +18,25 @@ app.get('/buy/:productName', (err, res) => {
   res.sendFile(path.resolve('react-client/dist/index.html'))
 })
 
+
+//Fetch all the reviews for a productName
 app.get('/api/:productName/reviews', (req, res) => {
-  var name = req.params.productName
-  db.selectAll(name)
-  .then(reviews => {
-    res.status(200).send(reviews)
+  var id = Number(req.params.productName)
+  //var now = new Date();
+  db.findReviews(id, function(err, result){
+    if(err){
+      console.log(err)
+    }else{
+      //console.log(new Date - now)
+      var reviews = JSON.parse(JSON.stringify(result))
+      res.status(200).send(reviews)
+    }
   })
-  .catch(err => {
-    console.log(err, ' error in get reviews in server')
-  })
+
 });
 
+
+//Search specific terms in all the reviews for a productName
 app.post('/api/:productName/reviews/search', (req, res) => {
   var name = req.body.name
   var term = req.body.term.toLowerCase()
@@ -95,4 +106,15 @@ app.listen(3002, function(err) {
   if (err) {console.log(err, 'error in listen')}
   else console.log('listening on port 3002!');
 });
+
+//Kennys DB CALL
+  // db.selectAll(name)
+  // .then(reviews => {
+  //   console.log(reviews)
+  //   res.status(200).send(reviews)
+  // })
+  // .catch(err => {
+  //   console.log(err, ' error in get reviews in server')
+  // })
+
 

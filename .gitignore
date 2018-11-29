@@ -4,3 +4,4 @@ webpack.config.js
 /react-client/dist/bundle.js
 /database-mongo/config.js
 DDReview.pem
+config.js
