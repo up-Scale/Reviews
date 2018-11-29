@@ -21,6 +21,7 @@ class ReviewsTab extends React.Component {
 
   componentDidMount() {
     var ProductName = window.location.href.slice(26)
+    console.log(ProductName)
     let url = new URL(window.location.href)
     let productName = 'flashlight'
     if(url.pathname !== '/'){
@@ -31,10 +32,22 @@ class ReviewsTab extends React.Component {
       this.setState({
         reviews : data,
         productName : productName
+      }, () => {
+        console.log(this.state.reviews)
       })
     })
     .catch(err => {console.log(err, ' error in get Reviews')})
   }
+
+    //  .then(({data}) => {
+    //   console.log(data)
+    //   this.setState({
+    //     reviews : data,
+    //     productName : productName
+    //   }, () => {
+    //     console.log('Working', this.state.reviews)
+    //   })
+    // })
 
 
   postReply(userId, reply){

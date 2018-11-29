@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS reviews;
 
-CREATE DATABASE reviews;
+CREATE DATABASE  
 
 USE reviews;
 
@@ -31,6 +31,11 @@ CREATE TABLE allReview (
 );
 
 
--- ALTER TABLE `allReview` ADD FOREIGN KEY(user_id) REFERENCES `users`(`id`);
--- ALTER TABLE `allReview` ADD FOREIGN KEY(product_id) REFERENCES `products`(`id`);
 ALTER TABLE `allReview` ADD INDEX `product_id`(`product_id`);
+ALTER TABLE `allReview` ADD FOREIGN KEY(user_id) REFERENCES `users`(`id`);
+ALTER TABLE `allReview` ADD FOREIGN KEY(product_id) REFERENCES `products`(`id`);
+
+
+ -- mysql -u root -p -h ec2-3-16-167-188.us-east-2.compute.amazonaws.com reviews
+
+

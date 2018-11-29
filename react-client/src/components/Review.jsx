@@ -71,12 +71,12 @@ class Review extends React.Component{
   }
 
   render(){
-
+  console.log("Individual REview", this.props.review)
     return (
       <div style={styles.reviewBox}>
         <div>
           <div>
-            <img style={styles.avatarImage} src={this.props.review.avatarUrl}></img>
+            <img style={styles.avatarImage} src={this.props.review.avatarURL}></img>
             <div className='username' style={styles.userAndEndorsmentsPlacement}>
               <b>{this.props.review.username}</b>
               <span style={styles.smallBox}>{this.props.review.userEndorsements}</span>
