@@ -1,4 +1,3 @@
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('../database-mysql/index.js');
@@ -6,8 +5,6 @@ const app = express();
 const _ = require('underscore');
 const cors = require('cors')
 const path = require('path')
-
-
 
 
 app.use(express.static(__dirname + '/../react-client/dist'));
@@ -22,12 +19,10 @@ app.get('/buy/:productName', (err, res) => {
 //Fetch all the reviews for a productName
 app.get('/api/:productName/reviews', (req, res) => {
   var id = Number(req.params.productName)
-  //var now = new Date();
   db.findReviews(id, function(err, result){
     if(err){
       console.log(err)
     }else{
-      //console.log(new Date - now)
       var reviews = JSON.parse(JSON.stringify(result))
       res.status(200).send(reviews)
     }

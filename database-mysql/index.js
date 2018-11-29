@@ -2,7 +2,7 @@ var mysql = require('mysql');
 var aws = require('../config.js');
 
 var pool = mysql.createPool({
-  connectionLimit: 50,
+  connectionLimit: 100,
   host     : aws.amazonHost,
   user     : 'root',
   password : aws.amazonPass,
