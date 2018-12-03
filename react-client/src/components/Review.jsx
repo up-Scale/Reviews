@@ -71,7 +71,6 @@ class Review extends React.Component{
   }
 
   render(){
-  console.log("Individual REview", this.props.review)
     return (
       <div style={styles.reviewBox}>
         <div>
