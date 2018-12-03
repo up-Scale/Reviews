@@ -68,6 +68,26 @@ app.get('/api/:productName/reviews', (req, res) => {
 
 });
 
+app.get('/buy1/:productName', (req, res) => {
+  console.log(' im here ')
+  //res.sendFile(path.resolve('react-client/dist/index.html'))
+  var id = Number(req.params.productName)
+
+  db.findReviews(id, function(err, result){
+    if(err){
+      console.log(err)
+    }else{
+      var reviews = JSON.parse(JSON.stringify(result))
+
+      const html = renderToString(<App data={reviews} productName={id}/>);
+
+      const initialState = {reviews, productName: id}
+      res.status(200).send({initialState, html})
+    }
+  })
+
+})
+
 
 //Search specific terms in all the reviews for a productName
 app.post('/api/:productName/reviews/search', (req, res) => {
