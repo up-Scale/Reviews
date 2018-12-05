@@ -41,6 +41,7 @@
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.3",
     "react-stars": "^2.2.5",
+    "redis": "^2.8.0",
     "save": "^2.3.2",
     "time-ago": "^0.2.1",
     "underscore": "^1.9.1"
