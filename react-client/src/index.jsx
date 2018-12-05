@@ -7,7 +7,6 @@ import DropDown from './components/DropDown.jsx';
 
 class ReviewsTab extends React.Component {
   constructor(props) {
-    console.log('data yaya: ', props)
     super(props);
     this.state = {
       productName: props.productName,

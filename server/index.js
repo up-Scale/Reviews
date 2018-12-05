@@ -17,7 +17,6 @@ app.use(bodyParser.json());
 app.use(cors())
 
 app.get('/buy/:productName', (req, res) => {
-  console.log(' im here ')
   //res.sendFile(path.resolve('react-client/dist/index.html'))
   var id = Number(req.params.productName)
 
