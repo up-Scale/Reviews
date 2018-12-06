@@ -5,11 +5,17 @@ import _ from 'underscore'
 import cors from 'cors'
 import path from 'path'
 import React from 'react'
+import redis from 'redis'
 import { renderToString } from 'react-dom/server'
 
 const app = express();
 
 import App from '../react-client/src/index.jsx'
+
+const client = redis.createClient({
+  port: 6379,
+  host: process.env.REDIS_HOST || '127.0.0.1'
+});
 
 
 app.use(express.static(__dirname + '/../react-client/dist'));
@@ -17,7 +23,6 @@ app.use(bodyParser.json());
 app.use(cors())
 
 app.get('/buy/:productName', (req, res) => {
-  console.log(' im here ')
   //res.sendFile(path.resolve('react-client/dist/index.html'))
   var id = Number(req.params.productName)
 
@@ -30,22 +35,22 @@ app.get('/buy/:productName', (req, res) => {
       const html = renderToString(<App data={reviews} productName={id}/>);
 
       const initialState = {reviews, productName: id}
-      var template = `<!DOCTYPE html>
-<html>
+      var template = `
+      <!DOCTYPE html>
+        <html>
+          <head>
+            <title>DeltaDrop</title>
+          </head>
+          <body>
+            <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+            <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+            <script>window.__initialState__ = ${JSON.stringify(initialState)}</script>
 
-<head>
-  <title>DeltaDrop</title>
-</head>
-<body>
-<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-<script>window.__initialState__ = ${JSON.stringify(initialState)}</script>
+            <div id="reviews">${html}</div>
 
-<div id="reviews">${html}</div>
-
-<script src="/bundle.js"></script>
-</body>
-</html>`
+            <script src="/bundle.js"></script>
+          </body>
+        </html>`
 
       res.status(200).send(template)
     }
@@ -159,15 +164,3 @@ app.listen(3002, function(err) {
   if (err) {console.log(err, 'error in listen')}
   else console.log('listening on port 3002!');
 });
-
-//Kennys DB CALL
-  // db.selectAll(name)
-  // .then(reviews => {
-  //   console.log(reviews)
-  //   res.status(200).send(reviews)
-  // })
-  // .catch(err => {
-  //   console.log(err, ' error in get reviews in server')
-  // })
-
-
