@@ -5,6 +5,15 @@ const app = express();
 const _ = require('underscore');
 const cors = require('cors')
 const path = require('path')
+const redis = require('redis');
+
+const client = redis.createClient({
+  port: 6379,
+  host: process.env.REDIS_HOST || '127.0.0.1'
+})
+
+client.on('connect', () => { console.log('Redis client connected') });
+client.on('error', (err) => { console.log('Error: ' + err) });
 
 
 app.use(express.static(__dirname + '/../react-client/dist'));
@@ -19,16 +28,16 @@ app.get('/buy/:productName', (err, res) => {
 //Fetch all the reviews for a productName
 app.get('/api/:productName/reviews', (req, res) => {
   var id = Number(req.params.productName)
-  db.findReviews(id, function(err, result){
-    if(err){
-      console.log(err)
-    }else{
-      var reviews = JSON.parse(JSON.stringify(result))
-      res.status(200).send(reviews)
-    }
-  })
 
-});
+      db.findReviews(id, function(err, result){
+        if(err){
+          console.log(err)
+        }else{
+          var reviews = JSON.parse(JSON.stringify(result))
+          res.status(200).send(reviews)
+        }
+      })
+    });
 
 
 //Search specific terms in all the reviews for a productName
@@ -102,14 +111,17 @@ app.listen(3002, function(err) {
   else console.log('listening on port 3002!');
 });
 
-//Kennys DB CALL
-  // db.selectAll(name)
-  // .then(reviews => {
-  //   console.log(reviews)
-  //   res.status(200).send(reviews)
-  // })
-  // .catch(err => {
-  //   console.log(err, ' error in get reviews in server')
-  // })
 
+  // const reviewKey = `${id}:reviews`
+  // client.hgetall(reviewKey, function(err, reviews){
+  //   if(reviews){
+  //     return res.json({reviews});
+  //   }else{
+  //         // client.hmset(
+  //         //   reviewKey, rev, function(err, results){
+  //         //     if(err){
+  //         //       console.log(err)
+  //         //     }
+  //         //   }
+  //         // )
 
