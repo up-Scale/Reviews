@@ -1,16 +1,22 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const db = require('../database-mysql/index.js');
+import express from 'express';
+import bodyParser from 'body-parser';
+import db from '../database-mysql/index.js';
+import _ from 'underscore'
+import cors from 'cors'
+import path from 'path'
+import React from 'react'
+import redis from 'redis'
+import { renderToString } from 'react-dom/server'
+
 const app = express();
-const _ = require('underscore');
-const cors = require('cors')
-const path = require('path')
-const redis = require('redis');
+
+import App from '../react-client/src/index.jsx'
 
 const client = redis.createClient({
   port: 6379,
   host: process.env.REDIS_HOST || '127.0.0.1'
-})
+});
+
 
 client.on('connect', () => { console.log('Redis client connected') });
 client.on('error', (err) => { console.log('Error: ' + err) });
@@ -20,8 +26,40 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 app.use(bodyParser.json());
 app.use(cors())
 
-app.get('/buy/:productName', (err, res) => {
-  res.sendFile(path.resolve('react-client/dist/index.html'))
+app.get('/buy/:productName', (req, res) => {
+  //res.sendFile(path.resolve('react-client/dist/index.html'))
+  var id = Number(req.params.productName)
+
+  db.findReviews(id, function(err, result){
+    if(err){
+      console.log(err)
+    }else{
+      var reviews = JSON.parse(JSON.stringify(result))
+
+      const html = renderToString(<App data={reviews} productName={id}/>);
+
+      const initialState = {reviews, productName: id}
+      var template = `
+      <!DOCTYPE html>
+        <html>
+          <head>
+            <title>DeltaDrop</title>
+          </head>
+          <body>
+            <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+            <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+            <script>window.__initialState__ = ${JSON.stringify(initialState)}</script>
+
+            <div id="reviews">${html}</div>
+
+            <script src="/bundle.js"></script>
+          </body>
+        </html>`
+
+      res.status(200).send(template)
+    }
+  })
+
 })
 
 
@@ -38,6 +76,26 @@ app.get('/api/:productName/reviews', (req, res) => {
         }
       })
     });
+
+app.get('/buy1/:productName', (req, res) => {
+  console.log(' im here ')
+  //res.sendFile(path.resolve('react-client/dist/index.html'))
+  var id = Number(req.params.productName)
+
+  db.findReviews(id, function(err, result){
+    if(err){
+      console.log(err)
+    }else{
+      var reviews = JSON.parse(JSON.stringify(result))
+
+      const html = renderToString(<App data={reviews} productName={id}/>);
+
+      const initialState = {reviews, productName: id}
+      res.status(200).send({initialState, html})
+    }
+  })
+
+})
 
 
 //Search specific terms in all the reviews for a productName

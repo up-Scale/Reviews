@@ -9,8 +9,8 @@ class ReviewsTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productName: 'flashlight', // built out solely for testing, need to get product id from productInfo once we connect our work.
-      reviews: [],
+      productName: props.productName,
+      reviews: props.data,
       makeReply: false,
     }
     this.postReply = this.postReply.bind(this);
@@ -19,25 +19,25 @@ class ReviewsTab extends React.Component {
     this.updateLike = this.updateLike.bind(this);
   }
 
-  componentDidMount() {
-    var ProductName = window.location.href.slice(26)
-    console.log(ProductName)
-    let url = new URL(window.location.href)
-    let productName = 'flashlight'
-    if(url.pathname !== '/'){
-      productName = url.pathname.split('/')[2]
-    }
-    axios.get(`/api/${ProductName}/reviews`)
-    .then(({data}) => {
-      this.setState({
-        reviews : data,
-        productName : productName
-      }, () => {
-        console.log(this.state.reviews)
-      })
-    })
-    .catch(err => {console.log(err, ' error in get Reviews')})
-  }
+  // componentDidMount() {
+  //   var ProductName = window.location.href.slice(26)
+  //   console.log(ProductName)
+  //   let url = new URL(window.location.href)
+  //   let productName = 'flashlight'
+  //   if(url.pathname !== '/'){
+  //     productName = url.pathname.split('/')[2]
+  //   }
+  //   axios.get(`/api/${ProductName}/reviews`)
+  //   .then(({data}) => {
+  //     this.setState({
+  //       reviews : data,
+  //       productName : productName
+  //     }, () => {
+  //       console.log(this.state.reviews)
+  //     })
+  //   })
+  //   .catch(err => {console.log(err, ' error in get Reviews')})
+  // }
 
     //  .then(({data}) => {
     //   console.log(data)
@@ -117,5 +117,3 @@ class ReviewsTab extends React.Component {
 }
 
 export default ReviewsTab;
-ReactDOM.render(<ReviewsTab />, document.getElementById('reviews'));
-// window.Reviews = ReviewsTab;
