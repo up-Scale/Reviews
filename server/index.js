@@ -27,55 +27,55 @@ app.use(bodyParser.json());
 app.use(cors())
 
 app.get('/buy/:productName', (req, res) => {
-  //res.sendFile(path.resolve('react-client/dist/index.html'))
   var id = Number(req.params.productName)
 
-  db.findReviews(id, function(err, result){
+  client.get(id, function(err, reviews) {
     if(err){
-      console.log(err)
+      console.log(error);
+      throw error;
     }else{
-      var reviews = JSON.parse(JSON.stringify(result))
+      if (reviews) {
+        // res.status(200).send(template)
+        console.log('server side rendering with redis');
+        res.send(reviews)
+      }else{
+        db.findReviews(id, function(err, result){
+          if(err){
+            console.log(err)
+          }else{
+            var reviews = JSON.parse(JSON.stringify(result))
+            const html = renderToString(<App data={reviews} productName={id}/>);
+            const initialState = {reviews, productName: id}
 
-      const html = renderToString(<App data={reviews} productName={id}/>);
+            var template = `<!DOCTYPE html><html><head><title>DeltaDrop</title></head><body><script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script><script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script><script>window.__initialState__ = ${JSON.stringify(initialState)}</script><div id="reviews">${html}</div><script src="/bundle.js"></script></body></html>`
 
-      const initialState = {reviews, productName: id}
-      var template = `
-      <!DOCTYPE html>
-        <html>
-          <head>
-            <title>DeltaDrop</title>
-          </head>
-          <body>
-            <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-            <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-            <script>window.__initialState__ = ${JSON.stringify(initialState)}</script>
+            client.set(id, template, function(err, result) {
+              if(err){
+                console.log(err);
+              }
+            })
 
-            <div id="reviews">${html}</div>
-
-            <script src="/bundle.js"></script>
-          </body>
-        </html>`
-
-      res.status(200).send(template)
+            res.status(200).send(template)
+          }
+        })
+      }
     }
   })
-
 })
 
 
 //Fetch all the reviews for a productName
 app.get('/api/:productName/reviews', (req, res) => {
   var id = Number(req.params.productName)
-
-      db.findReviews(id, function(err, result){
-        if(err){
-          console.log(err)
-        }else{
-          var reviews = JSON.parse(JSON.stringify(result))
-          res.status(200).send(reviews)
-        }
-      })
-    });
+  db.findReviews(id, function(err, result){
+    if(err){
+      console.log(err)
+    }else{
+      var reviews = JSON.parse(JSON.stringify(result))
+      res.status(200).send(reviews)
+    }
+  })
+});
 
 app.get('/buy1/:productName', (req, res) => {
   console.log(' im here ')
